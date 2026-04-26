@@ -18,7 +18,7 @@
   header { position: sticky; top: 0; background: #db4c3f; color: #fff; padding: 6px 12px; z-index: 10; display: flex; align-items: center; justify-content: space-between; }
   header h1 { margin: 0; font-size: 15px; font-weight: 600; }
   header .right { display: flex; gap: 6px; align-items: center; }
-  #syncIndicator { font-size: 11px; opacity: 0.85; }
+  #syncIndicator { font-size: 11px; opacity: 0.85; white-space: nowrap; }
   .tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 48px; z-index: 9; overflow-x: auto; }
   .tab { flex: 1; min-width: 72px; text-align: center; padding: 12px 8px; font-size: 13px; color: #666; cursor: pointer; border-bottom: 3px solid transparent; user-select: none; white-space: nowrap; }
   .tab.active { color: #db4c3f; border-bottom-color: #db4c3f; font-weight: 600; }
@@ -65,7 +65,6 @@
   .edit-btn:hover { color: #1976d2; }
   .empty { text-align: center; color: #aaa; padding: 40px 20px; font-size: 14px; }
   .section-divider { list-style: none; margin: 14px 0 8px; padding: 8px 12px; background: #ffe5e1; color: #c0392b; font-size: 12px; font-weight: 700; border-radius: 6px; border-left: 4px solid #db4c3f; letter-spacing: 0.5px; }
-
   .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .cal-nav { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 14px; }
   .cal-title { font-size: 17px; font-weight: 600; }
@@ -80,12 +79,10 @@
   .cal-sat { color: #1e88e5; }
   .day-detail { margin-top: 16px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #eee; }
   .day-detail h3 { margin: 0 0 10px; font-size: 15px; }
-
   .stats-box { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
   .stats-box h3 { margin: 0 0 10px; font-size: 14px; color: #666; }
   .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
   .stat-row:last-child { border: none; }
-
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
   .modal-bg.open { display: flex; }
   .modal { background: #fff; border-radius: 12px; padding: 18px; width: 100%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
@@ -96,7 +93,6 @@
   .modal-add { display: flex; gap: 6px; }
   .modal-add input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
   .modal-close { margin-top: 14px; width: 100%; }
-
   .edit-form-row { margin-bottom: 12px; }
   .edit-form-row label { display: block; font-size: 12px; color: #888; margin-bottom: 4px; }
   .edit-form-row input[type="text"],
@@ -104,13 +100,19 @@
   .edit-form-row select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #fff; }
   .edit-recur-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .edit-recur-row select { flex: 1; min-width: 80px; }
-
-  /* PWAインストールバナー */
-  #installBanner { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; padding: 12px 16px; display: none; align-items: center; justify-content: space-between; z-index: 200; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
+  /* 設定モーダル */
+  .setting-row { margin-bottom: 14px; }
+  .setting-row label { display: block; font-size: 12px; color: #888; margin-bottom: 4px; font-weight: 600; }
+  .setting-row input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: monospace; background: #fff; }
+  .setting-note { font-size: 11px; color: #888; margin-top: 4px; line-height: 1.5; }
+  .setting-status { margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; display: none; }
+  .setting-status.ok { background: #e8f5e9; color: #2e7d32; display: block; }
+  .setting-status.err { background: #ffebee; color: #c62828; display: block; }
+  /* インストールバナー */
+  #installBanner { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; padding: 12px 16px; display: none; align-items: center; justify-content: space-between; z-index: 200; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
   #installBanner.show { display: flex; }
   #installBanner .banner-text { font-size: 13px; color: #333; }
   #installBanner .banner-text strong { display: block; font-size: 14px; }
-
   @media (min-width: 600px) {
     .cal-cell { min-height: 90px; font-size: 13px; }
     .input-opts { justify-content: flex-start; gap: 10px; }
@@ -122,6 +124,7 @@
   <h1>📋 MyTodo</h1>
   <div class="right">
     <span id="syncIndicator">📱ローカル</span>
+    <button class="btn btn-sub btn-sm" onclick="openSettingsModal()">⚙️</button>
     <button class="btn btn-sub btn-sm" onclick="openTagModal()">タグ</button>
     <button class="btn btn-sub btn-sm" onclick="exportJSON()">保存</button>
     <button class="btn btn-sub btn-sm" onclick="document.getElementById('jsonFile').click()">復元</button>
@@ -189,26 +192,16 @@
   </div>
 
   <div id="view-stats" class="view" style="display:none;">
-    <div class="stats-box">
-      <h3>全体</h3>
-      <div id="overallStats"></div>
-    </div>
-    <div class="stats-box">
-      <h3>タグ別（完了数）</h3>
-      <div id="tagStats"></div>
-    </div>
-    <div class="stats-box">
-      <h3>月別完了数（直近12ヶ月）</h3>
-      <div id="monthStats"></div>
-    </div>
+    <div class="stats-box"><h3>全体</h3><div id="overallStats"></div></div>
+    <div class="stats-box"><h3>タグ別（完了数）</h3><div id="tagStats"></div></div>
+    <div class="stats-box"><h3>月別完了数（直近12ヶ月）</h3><div id="monthStats"></div></div>
   </div>
 </div>
 
-<!-- PWAインストールバナー -->
+<!-- インストールバナー -->
 <div id="installBanner">
   <div class="banner-text">
-    <strong>📲 ホーム画面に追加</strong>
-    アプリとして使えます
+    <strong>📲 ホーム画面に追加</strong>アプリとして使えます
   </div>
   <div style="display:flex;gap:8px;">
     <button class="btn btn-sm" onclick="installApp()">追加</button>
@@ -216,7 +209,34 @@
   </div>
 </div>
 
-<!-- Tag management modal -->
+<!-- 設定モーダル -->
+<div class="modal-bg" id="settingsModal" onclick="if(event.target===this)closeSettingsModal()">
+  <div class="modal">
+    <h2>⚙️ GitHub Gist 同期設定</h2>
+    <div class="setting-row">
+      <label>GitHub トークン（gistスコープ必須）</label>
+      <input type="password" id="gistTokenInput" placeholder="ghp_xxxx または github_pat_xxxx">
+      <div class="setting-note">
+        ターミナルで <code>gh auth token</code> を実行するとトークンが表示されます。<br>
+        または <a href="https://github.com/settings/tokens/new?scopes=gist" target="_blank">GitHub → Settings → Tokens</a> で「gist」スコープのみのトークンを新規作成してください。
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Gist ID（初回接続後に自動入力）</label>
+      <input type="text" id="gistIdInput" placeholder="自動生成されます">
+    </div>
+    <div id="settingStatus" class="setting-status"></div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button class="btn btn-sm" style="flex:1" onclick="testAndSaveGistSettings()">接続テスト &amp; 保存</button>
+      <button class="btn btn-sub btn-sm" style="flex:1" onclick="closeSettingsModal()">キャンセル</button>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#aaa;">
+      ※ トークンはこのデバイスのブラウザにのみ保存されます
+    </div>
+  </div>
+</div>
+
+<!-- タグ管理モーダル -->
 <div class="modal-bg" id="tagModal" onclick="if(event.target===this)closeTagModal()">
   <div class="modal">
     <h2>🏷️ タグ管理</h2>
@@ -229,7 +249,7 @@
   </div>
 </div>
 
-<!-- Edit task modal -->
+<!-- タスク編集モーダル -->
 <div class="modal-bg" id="editModal" onclick="if(event.target===this)closeEditModal()">
   <div class="modal">
     <h2>✏️ タスクを編集</h2>
@@ -268,6 +288,9 @@
 <script>
 const STORAGE_KEY = "mytodo_tasks_v2";
 const TAGS_KEY = "mytodo_tags_v1";
+const GIST_TOKEN_KEY = "mytodo_gist_token";
+const GIST_ID_KEY = "mytodo_gist_id";
+const GIST_FILE = "mytodo_data.json";
 const DOW_NAMES = ["日","月","火","水","木","金","土"];
 
 let tasks = [];
@@ -279,8 +302,141 @@ let statusFilter = "pending";
 let calYear, calMonth;
 let selectedDate = null;
 let deferredInstallPrompt = null;
+let syncTimer = null;
+let pendingSync = false;
 
-// PWAインストールプロンプト
+// ---- Gist 設定 ----
+let gistToken = localStorage.getItem(GIST_TOKEN_KEY) || "";
+let gistId = localStorage.getItem(GIST_ID_KEY) || "";
+
+function setSync(state) {
+  const el = document.getElementById("syncIndicator");
+  if (!el) return;
+  if (!gistToken) { el.textContent = "📱ローカル"; return; }
+  if (state === "syncing") el.textContent = "⟳ 同期中…";
+  else if (state === "error")  el.textContent = "⚠ 同期失敗";
+  else                          el.textContent = "☁ 同期済み";
+}
+
+async function loadFromGist() {
+  if (!gistToken || !gistId) return false;
+  try {
+    setSync("syncing");
+    const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { Authorization: `token ${gistToken}`, Accept: "application/vnd.github.v3+json" }
+    });
+    if (!res.ok) { setSync("error"); return false; }
+    const gist = await res.json();
+    const raw = gist.files[GIST_FILE]?.content;
+    if (!raw) { setSync("idle"); return false; }
+    const data = JSON.parse(raw);
+    if (Array.isArray(data.tasks)) tasks = data.tasks;
+    if (Array.isArray(data.presetTags) && data.presetTags.length) presetTags = data.presetTags;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    localStorage.setItem(TAGS_KEY, JSON.stringify(presetTags));
+    setSync("idle");
+    return true;
+  } catch(e) {
+    console.error(e);
+    setSync("error");
+    return false;
+  }
+}
+
+async function createGist() {
+  const payload = { tasks, presetTags };
+  const res = await fetch("https://api.github.com/gists", {
+    method: "POST",
+    headers: {
+      Authorization: `token ${gistToken}`,
+      Accept: "application/vnd.github.v3+json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      description: "MyTodo Data",
+      public: false,
+      files: { [GIST_FILE]: { content: JSON.stringify(payload) } }
+    })
+  });
+  if (!res.ok) throw new Error("Gist作成失敗");
+  const gist = await res.json();
+  gistId = gist.id;
+  localStorage.setItem(GIST_ID_KEY, gistId);
+}
+
+async function pushToGist() {
+  if (!gistToken) return;
+  try {
+    setSync("syncing");
+    if (!gistId) { await createGist(); }
+    const payload = { tasks, presetTags };
+    const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `token ${gistToken}`,
+        Accept: "application/vnd.github.v3+json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(payload) } } })
+    });
+    if (!res.ok) throw new Error("同期失敗");
+    pendingSync = false;
+    setSync("idle");
+  } catch(e) {
+    console.error(e);
+    setSync("error");
+  }
+}
+
+// ---- 設定モーダル ----
+function openSettingsModal() {
+  document.getElementById("gistTokenInput").value = gistToken;
+  document.getElementById("gistIdInput").value = gistId;
+  document.getElementById("settingStatus").className = "setting-status";
+  document.getElementById("settingStatus").textContent = "";
+  document.getElementById("settingsModal").classList.add("open");
+}
+function closeSettingsModal() {
+  document.getElementById("settingsModal").classList.remove("open");
+}
+
+async function testAndSaveGistSettings() {
+  const token = document.getElementById("gistTokenInput").value.trim();
+  const id    = document.getElementById("gistIdInput").value.trim();
+  const statusEl = document.getElementById("settingStatus");
+  statusEl.className = "setting-status";
+  statusEl.textContent = "接続確認中…";
+
+  try {
+    const res = await fetch("https://api.github.com/user", {
+      headers: { Authorization: `token ${token}`, Accept: "application/vnd.github.v3+json" }
+    });
+    if (!res.ok) throw new Error("トークンが無効です");
+    const user = await res.json();
+
+    gistToken = token;
+    gistId = id;
+    localStorage.setItem(GIST_TOKEN_KEY, gistToken);
+    localStorage.setItem(GIST_ID_KEY, gistId);
+
+    statusEl.className = "setting-status ok";
+    statusEl.textContent = `✓ 接続成功 (${user.login})。データを同期します…`;
+
+    if (gistId) {
+      await loadFromGist();
+      render();
+    } else {
+      await pushToGist();
+    }
+    setSync("idle");
+    setTimeout(closeSettingsModal, 1200);
+  } catch(e) {
+    statusEl.className = "setting-status err";
+    statusEl.textContent = "✗ " + e.message;
+  }
+}
+
+// ---- PWA インストール ----
 window.addEventListener("beforeinstallprompt", e => {
   e.preventDefault();
   deferredInstallPrompt = e;
@@ -288,12 +444,10 @@ window.addEventListener("beforeinstallprompt", e => {
     document.getElementById("installBanner").classList.add("show");
   }
 });
-
 window.addEventListener("appinstalled", () => {
   document.getElementById("installBanner").classList.remove("show");
   deferredInstallPrompt = null;
 });
-
 function installApp() {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
@@ -302,34 +456,46 @@ function installApp() {
     document.getElementById("installBanner").classList.remove("show");
   });
 }
-
 function dismissInstall() {
   document.getElementById("installBanner").classList.remove("show");
   localStorage.setItem("pwa_install_dismissed", "1");
 }
 
-// Service Worker 登録
+// ---- Service Worker ----
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js").catch(console.error);
 }
 
+// ---- データ ----
 function load() {
   try { tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { tasks = []; }
   try { presetTags = JSON.parse(localStorage.getItem(TAGS_KEY) || "null") || ["校務","授業準備","部活","会議","生徒対応","家庭"]; } catch { presetTags = []; }
   try {
     const old = JSON.parse(localStorage.getItem("mytodo_tasks_v1") || "[]");
-    if (old.length && !tasks.length) { tasks = old.map(t => ({...t, recurrence: "none", dueDate: null, completionLog: []})); save(); }
+    if (old.length && !tasks.length) { tasks = old.map(t => ({...t, recurrence:"none", dueDate:null, completionLog:[]})); }
   } catch {}
+  setSync("idle");
 }
 
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  if (gistToken) {
+    pendingSync = true;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(pushToGist, 800);
+  }
 }
 
 function saveTags() {
   localStorage.setItem(TAGS_KEY, JSON.stringify(presetTags));
+  save();
 }
 
+window.addEventListener("beforeunload", () => {
+  if (pendingSync) pushToGist();
+});
+
+// ---- ユーティリティ ----
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
 
 function todayISO() {
@@ -342,32 +508,28 @@ function isoFromDate(dt) {
 }
 
 function nextOccurrenceOfWeekday(dayOfWeek) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0,0,0,0);
   const diff = (dayOfWeek - today.getDay() + 7) % 7;
   today.setDate(today.getDate() + diff);
   return isoFromDate(today);
 }
 
 function nextOccurrenceOfMonthDay(dayOfMonth) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  let candidate = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
-  if (candidate <= today) {
-    candidate = new Date(today.getFullYear(), today.getMonth() + 1, dayOfMonth);
-  }
-  const daysInMonth = new Date(candidate.getFullYear(), candidate.getMonth() + 1, 0).getDate();
-  candidate.setDate(Math.min(dayOfMonth, daysInMonth));
-  return isoFromDate(candidate);
+  const today = new Date(); today.setHours(0,0,0,0);
+  let c = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
+  if (c <= today) c = new Date(today.getFullYear(), today.getMonth()+1, dayOfMonth);
+  const max = new Date(c.getFullYear(), c.getMonth()+1, 0).getDate();
+  c.setDate(Math.min(dayOfMonth, max));
+  return isoFromDate(c);
 }
 
 function onRecurSelChange(recurSelEl, daySelEl) {
   const v = recurSelEl.value;
   if (v === "weekly") {
-    daySelEl.innerHTML = DOW_NAMES.map((d, i) => `<option value="${i}">${d}曜日</option>`).join("");
+    daySelEl.innerHTML = DOW_NAMES.map((d,i) => `<option value="${i}">${d}曜日</option>`).join("");
     daySelEl.style.display = "";
   } else if (v === "monthly") {
-    daySelEl.innerHTML = Array.from({length: 31}, (_, i) => `<option value="${i+1}">${i+1}日</option>`).join("");
+    daySelEl.innerHTML = Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}日</option>`).join("");
     daySelEl.style.display = "";
   } else {
     daySelEl.style.display = "none";
@@ -375,8 +537,7 @@ function onRecurSelChange(recurSelEl, daySelEl) {
 }
 
 function parseTags(text) {
-  const m = text.match(/#[^\s#]+/g) || [];
-  return m.map(t => t.substring(1));
+  return (text.match(/#[^\s#]+/g) || []).map(t => t.substring(1));
 }
 
 function addTask() {
@@ -390,157 +551,104 @@ function addTask() {
     ? parseInt(recurDayEl.value) : null;
 
   let initialDue;
-  if (dueManual) {
-    initialDue = dueManual;
-  } else if (recur === "weekly" && recurDay !== null) {
-    initialDue = nextOccurrenceOfWeekday(recurDay);
-  } else if (recur === "monthly" && recurDay !== null) {
-    initialDue = nextOccurrenceOfMonthDay(recurDay);
-  } else if (recur !== "none") {
-    initialDue = todayISO();
-  } else {
-    initialDue = null;
-  }
+  if (dueManual) initialDue = dueManual;
+  else if (recur === "weekly" && recurDay !== null) initialDue = nextOccurrenceOfWeekday(recurDay);
+  else if (recur === "monthly" && recurDay !== null) initialDue = nextOccurrenceOfMonthDay(recurDay);
+  else if (recur !== "none") initialDue = todayISO();
+  else initialDue = null;
 
   const inlineTags = parseTags(text);
   const allSelected = new Set([...inlineTags, ...selectedTags]);
   let finalText = text;
-  selectedTags.forEach(t => {
-    if (!inlineTags.includes(t)) finalText += ` #${t}`;
-  });
+  selectedTags.forEach(t => { if (!inlineTags.includes(t)) finalText += ` #${t}`; });
+
   tasks.unshift({
-    id: uid(),
-    text: finalText,
-    tags: [...allSelected],
-    done: false,
-    created: new Date().toISOString(),
-    completed: null,
-    recurrence: recur,
-    recurDay: recurDay,
-    dueDate: initialDue,
-    completionLog: []
+    id: uid(), text: finalText, tags: [...allSelected], done: false,
+    created: new Date().toISOString(), completed: null,
+    recurrence: recur, recurDay, dueDate: initialDue, completionLog: []
   });
   input.value = "";
   selectedTags.clear();
   document.getElementById("recurSel").value = "none";
   recurDayEl.style.display = "none";
   document.getElementById("dueInput").value = "";
-  save();
-  render();
+  save(); render();
 }
 
 function advanceDate(isoDate, recur, recurDay) {
-  const [y, m, d] = isoDate.split("-").map(Number);
-  const dt = new Date(y, m - 1, d);
-  if (recur === "daily") {
-    dt.setDate(dt.getDate() + 1);
-  } else if (recur === "weekly") {
-    dt.setDate(dt.getDate() + 7);
-  } else if (recur === "monthly") {
-    dt.setMonth(dt.getMonth() + 1);
-    if (recurDay != null) {
-      const daysInMonth = new Date(dt.getFullYear(), dt.getMonth() + 1, 0).getDate();
-      dt.setDate(Math.min(recurDay, daysInMonth));
-    }
+  const [y,m,d] = isoDate.split("-").map(Number);
+  const dt = new Date(y, m-1, d);
+  if (recur === "daily") dt.setDate(dt.getDate()+1);
+  else if (recur === "weekly") dt.setDate(dt.getDate()+7);
+  else if (recur === "monthly") {
+    dt.setMonth(dt.getMonth()+1);
+    if (recurDay != null) { const max = new Date(dt.getFullYear(), dt.getMonth()+1, 0).getDate(); dt.setDate(Math.min(recurDay, max)); }
   }
   return isoFromDate(dt);
 }
 
 function toggleTask(id) {
-  const t = tasks.find(x => x.id === id);
-  if (!t) return;
+  const t = tasks.find(x => x.id === id); if (!t) return;
   if (t.recurrence && t.recurrence !== "none") {
-    const now = new Date().toISOString();
     t.completionLog = t.completionLog || [];
-    t.completionLog.push(now);
-    const base = t.dueDate || todayISO();
-    t.dueDate = advanceDate(base, t.recurrence, t.recurDay != null ? t.recurDay : null);
+    t.completionLog.push(new Date().toISOString());
+    t.dueDate = advanceDate(t.dueDate || todayISO(), t.recurrence, t.recurDay ?? null);
     t.done = false;
   } else {
     t.done = !t.done;
     t.completed = t.done ? new Date().toISOString() : null;
   }
-  save();
-  render();
+  save(); render();
 }
 
 function deleteTask(id) {
   if (!confirm("このタスクを削除しますか？")) return;
   tasks = tasks.filter(x => x.id !== id);
-  save();
-  render();
+  save(); render();
 }
 
 function openEditModal(id) {
-  const t = tasks.find(x => x.id === id);
-  if (!t) return;
+  const t = tasks.find(x => x.id === id); if (!t) return;
   document.getElementById("editTaskId").value = id;
   document.getElementById("editTaskText").value = t.text;
   document.getElementById("editDueInput").value = t.dueDate || "";
-
   const recurSel = document.getElementById("editRecurSel");
   const daySelEl = document.getElementById("editRecurDaySel");
   recurSel.value = t.recurrence || "none";
   onRecurSelChange(recurSel, daySelEl);
-  if (t.recurDay != null && daySelEl.style.display !== "none") {
-    daySelEl.value = String(t.recurDay);
-  }
-
+  if (t.recurDay != null && daySelEl.style.display !== "none") daySelEl.value = String(t.recurDay);
   editSelectedTags = new Set(t.tags || []);
   renderEditTagPicker();
   document.getElementById("editModal").classList.add("open");
 }
-
-function closeEditModal() {
-  document.getElementById("editModal").classList.remove("open");
-}
+function closeEditModal() { document.getElementById("editModal").classList.remove("open"); }
 
 function saveEdit() {
   const id = document.getElementById("editTaskId").value;
-  const t = tasks.find(x => x.id === id);
-  if (!t) return;
-
-  const newText = document.getElementById("editTaskText").value.trim();
-  if (!newText) return;
-
+  const t = tasks.find(x => x.id === id); if (!t) return;
+  const newText = document.getElementById("editTaskText").value.trim(); if (!newText) return;
   const recurSel = document.getElementById("editRecurSel");
   const daySelEl = document.getElementById("editRecurDaySel");
   const newRecur = recurSel.value;
-  const newRecurDay = (newRecur === "weekly" || newRecur === "monthly") && daySelEl.style.display !== "none"
-    ? parseInt(daySelEl.value) : null;
+  const newRecurDay = (newRecur === "weekly" || newRecur === "monthly") && daySelEl.style.display !== "none" ? parseInt(daySelEl.value) : null;
   const newDue = document.getElementById("editDueInput").value || null;
-
   const inlineTags = parseTags(newText);
   const allTags = new Set([...inlineTags, ...editSelectedTags]);
   let finalText = newText;
-  editSelectedTags.forEach(tag => {
-    if (!inlineTags.includes(tag)) finalText += ` #${tag}`;
-  });
-
-  t.text = finalText;
-  t.tags = [...allTags];
-  t.recurrence = newRecur;
-  t.recurDay = newRecurDay;
-  t.dueDate = newDue;
-
-  save();
-  render();
-  closeEditModal();
+  editSelectedTags.forEach(tag => { if (!inlineTags.includes(tag)) finalText += ` #${tag}`; });
+  t.text = finalText; t.tags = [...allTags]; t.recurrence = newRecur; t.recurDay = newRecurDay; t.dueDate = newDue;
+  save(); render(); closeEditModal();
 }
 
 function renderEditTagPicker() {
   const box = document.getElementById("editTagPicker");
-  let html = "";
-  presetTags.forEach(tag => {
+  box.innerHTML = presetTags.map(tag => {
     const sel = editSelectedTags.has(tag) ? "selected" : "";
-    html += `<span class="tag-chip ${sel}" onclick="toggleEditTag('${tag.replace(/'/g,"\\'")}')">#${tag}</span>`;
-  });
-  box.innerHTML = html;
+    return `<span class="tag-chip ${sel}" onclick="toggleEditTag('${tag.replace(/'/g,"\\'")}')">#${tag}</span>`;
+  }).join("");
 }
-
 function toggleEditTag(tag) {
-  if (editSelectedTags.has(tag)) editSelectedTags.delete(tag);
-  else editSelectedTags.add(tag);
+  if (editSelectedTags.has(tag)) editSelectedTags.delete(tag); else editSelectedTags.add(tag);
   renderEditTagPicker();
 }
 
@@ -554,44 +662,38 @@ function renderTagPicker() {
   const box = document.getElementById("tagPicker");
   let html = `<div class="tag-picker-label">タグを選択</div>`;
   presetTags.forEach(t => {
-    const sel = selectedTags.has(t) ? "selected" : "";
-    html += `<span class="tag-chip ${sel}" onclick="toggleSelectedTag('${t.replace(/'/g,"\\'")}')">#${t}</span>`;
+    html += `<span class="tag-chip ${selectedTags.has(t)?"selected":""}" onclick="toggleSelectedTag('${t.replace(/'/g,"\\'")}')">#${t}</span>`;
   });
   html += `<span class="tag-chip manage" onclick="openTagModal()">＋管理</span>`;
   box.innerHTML = html;
 }
-
 function toggleSelectedTag(t) {
-  if (selectedTags.has(t)) selectedTags.delete(t);
-  else selectedTags.add(t);
+  if (selectedTags.has(t)) selectedTags.delete(t); else selectedTags.add(t);
   renderTagPicker();
 }
 
 function renderTagFilter(containerId) {
   const box = document.getElementById(containerId);
   const tags = allTags();
-  let html = `<span class="tag-chip ${currentFilter === null ? "active" : ""}" onclick="setFilter(null)">すべて</span>`;
+  let html = `<span class="tag-chip ${currentFilter===null?"active":""}" onclick="setFilter(null)">すべて</span>`;
   tags.forEach(t => {
-    html += `<span class="tag-chip ${currentFilter === t ? "active" : ""}" onclick="setFilter('${t.replace(/'/g,"\\'")}')">#${t}</span>`;
+    html += `<span class="tag-chip ${currentFilter===t?"active":""}" onclick="setFilter('${t.replace(/'/g,"\\'")}')">#${t}</span>`;
   });
   box.innerHTML = html;
 }
-
 function setFilter(t) { currentFilter = t; render(); }
 function setStatusFilter(s) { statusFilter = s; render(); }
 
 function setQuickDue(n) {
-  const d = new Date(); d.setDate(d.getDate() + n);
+  const d = new Date(); d.setDate(d.getDate()+n);
   document.getElementById("dueInput").value = isoFromDate(d);
 }
 
 function daysUntil(isoDate) {
   if (!isoDate) return null;
-  const [y, m, d] = isoDate.split("-").map(Number);
-  const target = new Date(y, m - 1, d);
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  return Math.round((target - now) / 86400000);
+  const [y,m,d] = isoDate.split("-").map(Number);
+  const now = new Date(); now.setHours(0,0,0,0);
+  return Math.round((new Date(y,m-1,d) - now) / 86400000);
 }
 
 function dueStatus(t) {
@@ -605,15 +707,8 @@ function dueStatus(t) {
 function getRecurLabel(t) {
   if (!t.recurrence || t.recurrence === "none") return null;
   if (t.recurrence === "daily") return "毎日";
-  if (t.recurrence === "weekly") {
-    if (t.recurDay != null) return `毎週${DOW_NAMES[t.recurDay]}曜`;
-    return "毎週";
-  }
-  if (t.recurrence === "monthly") {
-    if (t.recurDay != null) return `毎月${t.recurDay}日`;
-    return "毎月";
-  }
-  return null;
+  if (t.recurrence === "weekly") return t.recurDay != null ? `毎週${DOW_NAMES[t.recurDay]}曜` : "毎週";
+  if (t.recurrence === "monthly") return t.recurDay != null ? `毎月${t.recurDay}日` : "毎月";
 }
 
 function renderTaskLi(t) {
@@ -624,16 +719,13 @@ function renderTaskLi(t) {
   const ds = dueStatus(t);
   if (ds === "overdue") badges += `<span class="badge badge-overdue">納期 ${t.dueDate}（期限超過）</span>`;
   else if (ds === "today") badges += `<span class="badge badge-today">納期 ${t.dueDate}（今日）</span>`;
-  else if (ds === "future") {
-    const du = daysUntil(t.dueDate);
-    badges += `<span class="badge">納期 ${t.dueDate}（${du}日後）</span>`;
-  }
+  else if (ds === "future") badges += `<span class="badge">納期 ${t.dueDate}（${daysUntil(t.dueDate)}日後）</span>`;
   const meta = t.done
     ? `完了: ${formatDate(t.completed)}`
-    : (t.completionLog && t.completionLog.length ? `最終実施: ${formatDate(t.completionLog[t.completionLog.length-1])}` : `登録: ${formatDate(t.created)}`);
+    : (t.completionLog?.length ? `最終実施: ${formatDate(t.completionLog[t.completionLog.length-1])}` : `登録: ${formatDate(t.created)}`);
   return `
-    <li class="task ${t.done ? "done" : ""}">
-      <div class="check ${t.done ? "checked" : ""}" onclick="toggleTask('${t.id}')"></div>
+    <li class="task ${t.done?"done":""}">
+      <div class="check ${t.done?"checked":""}" onclick="toggleTask('${t.id}')"></div>
       <div class="task-body">
         <div class="task-text">${displayText}</div>
         <div class="task-meta">${badges}<span>${meta}</span></div>
@@ -648,8 +740,7 @@ function renderTaskLi(t) {
 function defaultSort(a, b) {
   if (a.done !== b.done) return a.done ? 1 : -1;
   if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate);
-  if (a.dueDate) return -1;
-  if (b.dueDate) return 1;
+  if (a.dueDate) return -1; if (b.dueDate) return 1;
   return new Date(b.created) - new Date(a.created);
 }
 
@@ -657,37 +748,21 @@ function renderTaskList(listId, filterFn, groupFn) {
   const ul = document.getElementById(listId);
   let list = tasks.filter(filterFn);
   if (currentFilter !== null) list = list.filter(t => t.tags.includes(currentFilter));
-  if (list.length === 0) {
-    ul.innerHTML = `<div class="empty">タスクがありません</div>`;
-    return;
-  }
-  if (!groupFn) {
-    list.sort(defaultSort);
-    ul.innerHTML = list.map(renderTaskLi).join("");
-    return;
-  }
-  const todayG = [], noDueG = [], futureG = [];
+  if (!list.length) { ul.innerHTML = `<div class="empty">タスクがありません</div>`; return; }
+  if (!groupFn) { list.sort(defaultSort); ul.innerHTML = list.map(renderTaskLi).join(""); return; }
+  const todayG=[], noDueG=[], futureG=[];
   list.forEach(t => {
-    if (groupFn(t) === "today") todayG.push(t);
+    if (groupFn(t)==="today") todayG.push(t);
     else if (!t.dueDate) noDueG.push(t);
     else futureG.push(t);
   });
   todayG.sort(defaultSort);
-  noDueG.sort((a, b) => {
-    if (a.done !== b.done) return a.done ? 1 : -1;
-    return new Date(b.created) - new Date(a.created);
-  });
-  futureG.sort((a, b) => {
-    if (a.done !== b.done) return a.done ? 1 : -1;
-    return a.dueDate.localeCompare(b.dueDate);
-  });
+  noDueG.sort((a,b) => { if(a.done!==b.done) return a.done?1:-1; return new Date(b.created)-new Date(a.created); });
+  futureG.sort((a,b) => { if(a.done!==b.done) return a.done?1:-1; return a.dueDate.localeCompare(b.dueDate); });
   const html = [];
   if (todayG.length) html.push(todayG.map(renderTaskLi).join(""));
   if (noDueG.length) html.push(noDueG.map(renderTaskLi).join(""));
-  if (futureG.length) {
-    html.push(`<li class="section-divider">── 明日以降 ──</li>`);
-    html.push(futureG.map(renderTaskLi).join(""));
-  }
+  if (futureG.length) { html.push(`<li class="section-divider">── 明日以降 ──</li>`); html.push(futureG.map(renderTaskLi).join("")); }
   ul.innerHTML = html.join("");
 }
 
@@ -696,53 +771,41 @@ function formatDate(iso) {
   const d = new Date(iso);
   return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,"0")}/${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
 }
-
 function ymd(iso) {
   const d = new Date(iso);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
-
-function isToday(iso) {
-  if (!iso) return false;
-  return ymd(iso) === todayISO();
-}
+function isToday(iso) { return iso ? ymd(iso)===todayISO() : false; }
 
 function render() {
   const activeView = document.querySelector(".tab.active").dataset.view;
   if (activeView === "today") {
-    renderTagPicker();
-    currentFilter = null;
+    renderTagPicker(); currentFilter = null;
     renderTaskList("taskList", t => {
-      if (t.recurrence && t.recurrence !== "none") {
-        const du = daysUntil(t.dueDate);
-        return du !== null && du <= 7;
-      }
+      if (t.recurrence && t.recurrence !== "none") { const du=daysUntil(t.dueDate); return du!==null&&du<=7; }
       if (t.done) return isToday(t.completed);
-      if (t.dueDate) {
-        const du = daysUntil(t.dueDate);
-        return du !== null && du <= 7;
-      }
+      if (t.dueDate) { const du=daysUntil(t.dueDate); return du!==null&&du<=7; }
       return true;
     }, t => {
       if (t.done) return "today";
-      if (t.dueDate && t.dueDate <= todayISO()) return "today";
+      if (t.dueDate && t.dueDate<=todayISO()) return "today";
       return "later";
     });
   } else if (activeView === "all") {
     renderTagFilter("tagFilterAll");
     ["pending","done","all"].forEach(s => {
-      const el = document.getElementById("statusToggle" + s.charAt(0).toUpperCase() + s.slice(1));
-      if (el) el.classList.toggle("active", s === statusFilter);
+      const el = document.getElementById("statusToggle"+s.charAt(0).toUpperCase()+s.slice(1));
+      if (el) el.classList.toggle("active", s===statusFilter);
     });
     renderTaskList("taskListAll", t => {
-      if (statusFilter === "all") return true;
-      const isDone = t.done || (t.completionLog && t.completionLog.length > 0);
-      if (statusFilter === "done") return isDone;
-      if (t.recurrence && t.recurrence !== "none") return true;
+      if (statusFilter==="all") return true;
+      const isDone = t.done||(t.completionLog&&t.completionLog.length>0);
+      if (statusFilter==="done") return isDone;
+      if (t.recurrence&&t.recurrence!=="none") return true;
       return !t.done;
     });
   } else if (activeView === "routine") {
-    renderTaskList("taskListRoutine", t => t.recurrence && t.recurrence !== "none");
+    renderTaskList("taskListRoutine", t => t.recurrence && t.recurrence!=="none");
   } else if (activeView === "calendar") {
     renderCalendar();
   } else if (activeView === "stats") {
@@ -751,239 +814,168 @@ function render() {
 }
 
 function switchView(v) {
-  document.querySelectorAll(".tab").forEach(el => el.classList.toggle("active", el.dataset.view === v));
-  document.querySelectorAll(".view").forEach(el => el.style.display = "none");
-  document.getElementById("view-" + v).style.display = "";
+  document.querySelectorAll(".tab").forEach(el => el.classList.toggle("active", el.dataset.view===v));
+  document.querySelectorAll(".view").forEach(el => el.style.display="none");
+  document.getElementById("view-"+v).style.display="";
   render();
 }
 
 function getCompletionEntries() {
   const entries = [];
   tasks.forEach(t => {
-    if (t.done && t.completed) entries.push({date: ymd(t.completed), task: t, when: t.completed});
-    (t.completionLog || []).forEach(ts => entries.push({date: ymd(ts), task: t, when: ts}));
+    if (t.done && t.completed) entries.push({date:ymd(t.completed), task:t, when:t.completed});
+    (t.completionLog||[]).forEach(ts => entries.push({date:ymd(ts), task:t, when:ts}));
   });
   return entries;
 }
 
 function renderCalendar() {
-  if (calYear === undefined) {
-    const n = new Date();
-    calYear = n.getFullYear();
-    calMonth = n.getMonth();
-  }
-  document.getElementById("calTitle").textContent = `${calYear}年 ${calMonth + 1}月`;
+  if (calYear===undefined) { const n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth(); }
+  document.getElementById("calTitle").textContent = `${calYear}年 ${calMonth+1}月`;
   const first = new Date(calYear, calMonth, 1);
   const startDow = first.getDay();
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
   const prevDays = new Date(calYear, calMonth, 0).getDate();
-
   const byDate = {};
-  getCompletionEntries().forEach(e => (byDate[e.date] = byDate[e.date] || []).push(e));
-
-  const dowNames = ["日","月","火","水","木","金","土"];
+  getCompletionEntries().forEach(e => (byDate[e.date]=byDate[e.date]||[]).push(e));
   let html = "";
-  dowNames.forEach((d, i) => {
-    const cls = i === 0 ? "cal-sun" : i === 6 ? "cal-sat" : "";
-    html += `<div class="cal-dow ${cls}">${d}</div>`;
+  ["日","月","火","水","木","金","土"].forEach((d,i) => {
+    html += `<div class="cal-dow ${i===0?"cal-sun":i===6?"cal-sat":""}">${d}</div>`;
   });
-
   const todayKey = todayISO();
-
-  for (let i = 0; i < 42; i++) {
-    let y = calYear, m = calMonth, d, other = false;
-    if (i < startDow) {
-      d = prevDays - startDow + 1 + i;
-      m = calMonth - 1;
-      if (m < 0) { m = 11; y--; }
-      other = true;
-    } else if (i - startDow + 1 > daysInMonth) {
-      d = i - startDow + 1 - daysInMonth;
-      m = calMonth + 1;
-      if (m > 11) { m = 0; y++; }
-      other = true;
-    } else {
-      d = i - startDow + 1;
-    }
-    const key = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-    const list = byDate[key] || [];
-    const dow = new Date(y, m, d).getDay();
-    const dowCls = dow === 0 ? "cal-sun" : dow === 6 ? "cal-sat" : "";
-    let cls = "cal-cell";
-    if (other) cls += " other";
-    if (key === todayKey) cls += " today";
+  for (let i=0; i<42; i++) {
+    let y=calYear, m=calMonth, d, other=false;
+    if (i<startDow) { d=prevDays-startDow+1+i; m=calMonth-1; if(m<0){m=11;y--;} other=true; }
+    else if (i-startDow+1>daysInMonth) { d=i-startDow+1-daysInMonth; m=calMonth+1; if(m>11){m=0;y++;} other=true; }
+    else { d=i-startDow+1; }
+    const key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const list=byDate[key]||[];
+    const dow=new Date(y,m,d).getDay();
+    let cls="cal-cell"; if(other) cls+=" other"; if(key===todayKey) cls+=" today";
     html += `<div class="${cls}" onclick="showDay('${key}')">
-      <div class="cal-date ${dowCls}">${d}</div>
-      ${list.length ? `<div class="cal-count">${list.length}</div>` : ""}
+      <div class="cal-date ${dow===0?"cal-sun":dow===6?"cal-sat":""}">${d}</div>
+      ${list.length?`<div class="cal-count">${list.length}</div>`:""}
     </div>`;
   }
   document.getElementById("calGrid").innerHTML = html;
-  if (selectedDate) showDay(selectedDate);
-  else document.getElementById("dayDetail").innerHTML = "";
+  if (selectedDate) showDay(selectedDate); else document.getElementById("dayDetail").innerHTML="";
 }
 
 function showDay(key) {
   selectedDate = key;
-  const list = getCompletionEntries().filter(e => e.date === key);
+  const list = getCompletionEntries().filter(e => e.date===key);
   const box = document.getElementById("dayDetail");
-  if (list.length === 0) {
-    box.innerHTML = `<div class="day-detail"><h3>${key}</h3><div class="empty">この日の完了タスクはありません</div></div>`;
-    return;
-  }
+  if (!list.length) { box.innerHTML=`<div class="day-detail"><h3>${key}</h3><div class="empty">この日の完了タスクはありません</div></div>`; return; }
   box.innerHTML = `<div class="day-detail"><h3>${key} の完了タスク (${list.length}件)</h3>` +
     list.map(e => {
       const disp = e.task.text.replace(/#[^\s#]+/g, s => `<span class="task-tag">${s}</span>`);
-      const rec = e.task.recurrence && e.task.recurrence !== "none" ? "🔁 " : "";
-      return `<div style="padding:6px 0;border-bottom:1px solid #f0f0f0;">✓ ${rec}${disp}</div>`;
+      return `<div style="padding:6px 0;border-bottom:1px solid #f0f0f0;">✓ ${e.task.recurrence&&e.task.recurrence!=="none"?"🔁 ":""}${disp}</div>`;
     }).join("") + `</div>`;
 }
 
 function changeMonth(delta) {
-  calMonth += delta;
-  if (calMonth < 0) { calMonth = 11; calYear--; }
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  selectedDate = null;
-  renderCalendar();
+  calMonth+=delta;
+  if(calMonth<0){calMonth=11;calYear--;} if(calMonth>11){calMonth=0;calYear++;}
+  selectedDate=null; renderCalendar();
 }
 
 function renderStats() {
-  const total = tasks.length;
-  const done = tasks.filter(t => t.done).length;
-  const routine = tasks.filter(t => t.recurrence && t.recurrence !== "none").length;
-  const totalCompletions = getCompletionEntries().length;
-  document.getElementById("overallStats").innerHTML = `
+  const total=tasks.length, done=tasks.filter(t=>t.done).length;
+  const routine=tasks.filter(t=>t.recurrence&&t.recurrence!=="none").length;
+  const totalCompletions=getCompletionEntries().length;
+  document.getElementById("overallStats").innerHTML=`
     <div class="stat-row"><span>総タスク数</span><strong>${total}</strong></div>
     <div class="stat-row"><span>ルーティン数</span><strong>${routine}</strong></div>
     <div class="stat-row"><span>累計完了回数</span><strong>${totalCompletions}</strong></div>
-    <div class="stat-row"><span>単発完了</span><strong>${done}</strong></div>
-  `;
-  const tagCount = {};
-  getCompletionEntries().forEach(e => e.task.tags.forEach(tg => tagCount[tg] = (tagCount[tg]||0)+1));
-  const tagSorted = Object.entries(tagCount).sort((a, b) => b[1] - a[1]);
-  document.getElementById("tagStats").innerHTML = tagSorted.length
-    ? tagSorted.map(([t, c]) => `<div class="stat-row"><span>#${t}</span><strong>${c}</strong></div>`).join("")
+    <div class="stat-row"><span>単発完了</span><strong>${done}</strong></div>`;
+  const tagCount={};
+  getCompletionEntries().forEach(e => e.task.tags.forEach(tg => tagCount[tg]=(tagCount[tg]||0)+1));
+  const tagSorted=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]);
+  document.getElementById("tagStats").innerHTML=tagSorted.length
+    ? tagSorted.map(([t,c])=>`<div class="stat-row"><span>#${t}</span><strong>${c}</strong></div>`).join("")
     : `<div class="empty">データなし</div>`;
-
-  const monthCount = {};
-  getCompletionEntries().forEach(e => {
-    const k = e.date.substring(0, 7);
-    monthCount[k] = (monthCount[k]||0)+1;
-  });
-  const now = new Date();
-  const months = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`);
-  }
-  document.getElementById("monthStats").innerHTML = months.map(m =>
-    `<div class="stat-row"><span>${m}</span><strong>${monthCount[m]||0}</strong></div>`
-  ).join("");
+  const monthCount={};
+  getCompletionEntries().forEach(e=>{const k=e.date.substring(0,7); monthCount[k]=(monthCount[k]||0)+1;});
+  const now=new Date(), months=[];
+  for(let i=11;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`);}
+  document.getElementById("monthStats").innerHTML=months.map(m=>`<div class="stat-row"><span>${m}</span><strong>${monthCount[m]||0}</strong></div>`).join("");
 }
 
-function openTagModal() {
-  renderModalTags();
-  document.getElementById("tagModal").classList.add("open");
-}
-function closeTagModal() {
-  document.getElementById("tagModal").classList.remove("open");
-  renderTagPicker();
-  render();
-}
+function openTagModal() { renderModalTags(); document.getElementById("tagModal").classList.add("open"); }
+function closeTagModal() { document.getElementById("tagModal").classList.remove("open"); renderTagPicker(); render(); }
 function renderModalTags() {
-  const box = document.getElementById("modalTagList");
-  box.innerHTML = presetTags.map(t => `
-    <span class="modal-tag">#${t}<button onclick="removePresetTag('${t.replace(/'/g,"\\'")}')">×</button></span>
-  `).join("") || `<div class="empty" style="padding:10px;">タグがありません</div>`;
+  const box=document.getElementById("modalTagList");
+  box.innerHTML=presetTags.map(t=>`<span class="modal-tag">#${t}<button onclick="removePresetTag('${t.replace(/'/g,"\\'")}')">×</button></span>`).join("")
+    || `<div class="empty" style="padding:10px;">タグがありません</div>`;
 }
 function addPresetTag() {
-  const inp = document.getElementById("newTagInput");
-  const v = inp.value.trim().replace(/^#/, "").replace(/\s/g, "");
-  if (!v) return;
-  if (!presetTags.includes(v)) presetTags.push(v);
-  saveTags();
-  inp.value = "";
-  renderModalTags();
+  const inp=document.getElementById("newTagInput");
+  const v=inp.value.trim().replace(/^#/,"").replace(/\s/g,"");
+  if(!v||presetTags.includes(v)) return;
+  presetTags.push(v); saveTags(); inp.value=""; renderModalTags();
 }
-function removePresetTag(t) {
-  presetTags = presetTags.filter(x => x !== t);
-  saveTags();
-  renderModalTags();
-}
+function removePresetTag(t) { presetTags=presetTags.filter(x=>x!==t); saveTags(); renderModalTags(); }
 
 function exportJSON() {
-  const payload = {
-    app: "MyTodo",
-    version: 2,
-    exportedAt: new Date().toISOString(),
-    tasks: tasks,
-    presetTags: presetTags
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `mytodo_backup_${todayISO()}.json`;
-  a.click();
+  const blob=new Blob([JSON.stringify({app:"MyTodo",version:2,exportedAt:new Date().toISOString(),tasks,presetTags},null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`mytodo_backup_${todayISO()}.json`; a.click();
 }
 
 function importJSON(ev) {
-  const file = ev.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
+  const file=ev.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
     try {
-      const data = JSON.parse(e.target.result);
-      if (!data || !Array.isArray(data.tasks)) throw new Error("形式が不正です");
-      const mode = prompt("復元モードを選択してください\n\n1 = 置換（現在のデータを削除して上書き）\n2 = マージ（IDが同じものは更新、無いものは追加）", "2");
-      if (mode !== "1" && mode !== "2") return;
-      if (mode === "1") {
-        if (!confirm(`現在の${tasks.length}件のタスクを削除して、${data.tasks.length}件に置き換えます。よろしいですか？`)) return;
-        tasks = data.tasks;
-        if (Array.isArray(data.presetTags)) presetTags = data.presetTags;
+      const data=JSON.parse(e.target.result);
+      if(!data||!Array.isArray(data.tasks)) throw new Error("形式が不正です");
+      const mode=prompt("復元モードを選択してください\n\n1 = 置換（現在のデータを削除して上書き）\n2 = マージ（IDが同じものは更新、無いものは追加）","2");
+      if(mode!=="1"&&mode!=="2") return;
+      if(mode==="1"){
+        if(!confirm(`現在の${tasks.length}件を削除して${data.tasks.length}件に置き換えます。よろしいですか？`)) return;
+        tasks=data.tasks;
+        if(Array.isArray(data.presetTags)) presetTags=data.presetTags;
       } else {
-        const byId = new Map(tasks.map(t => [t.id, t]));
-        data.tasks.forEach(t => byId.set(t.id, t));
-        tasks = [...byId.values()];
-        if (Array.isArray(data.presetTags)) {
-          const s = new Set([...presetTags, ...data.presetTags]);
-          presetTags = [...s];
-        }
+        const byId=new Map(tasks.map(t=>[t.id,t]));
+        data.tasks.forEach(t=>byId.set(t.id,t));
+        tasks=[...byId.values()];
+        if(Array.isArray(data.presetTags)){const s=new Set([...presetTags,...data.presetTags]);presetTags=[...s];}
       }
-      save();
-      saveTags();
+      save(); saveTags();
       alert(`復元完了：タスク${tasks.length}件、タグ${presetTags.length}件`);
       render();
-    } catch (err) {
-      alert("読み込みに失敗しました：" + err.message);
-    } finally {
-      ev.target.value = "";
-    }
+    } catch(err) { alert("読み込みに失敗しました："+err.message); }
+    finally { ev.target.value=""; }
   };
   reader.readAsText(file);
 }
 
 function exportCSV() {
-  const rows = [["id","text","tags","done","created","completed","recurrence","recurDay","dueDate","completionLog"]];
-  tasks.forEach(t => rows.push([t.id, t.text, t.tags.join("|"), t.done, t.created, t.completed||"", t.recurrence||"none", t.recurDay != null ? t.recurDay : "", t.dueDate||"", (t.completionLog||[]).join("|")]));
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const blob = new Blob(["﻿" + csv], {type: "text/csv"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `mytodo_${todayISO()}.csv`;
-  a.click();
+  const rows=[["id","text","tags","done","created","completed","recurrence","recurDay","dueDate","completionLog"]];
+  tasks.forEach(t=>rows.push([t.id,t.text,t.tags.join("|"),t.done,t.created,t.completed||"",t.recurrence||"none",t.recurDay??"",(t.completionLog||[]).join("|")]));
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob=new Blob(["﻿"+csv],{type:"text/csv"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`mytodo_${todayISO()}.csv`; a.click();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   load();
   render();
-  document.getElementById("taskInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") addTask();
-  });
-  document.getElementById("newTagInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") addPresetTag();
-  });
-  document.getElementById("editTaskText").addEventListener("keydown", e => {
-    if (e.key === "Enter") saveEdit();
-  });
+  // Gist同期（トークン設定済みの場合）
+  if (gistToken && gistId) {
+    await loadFromGist();
+    render();
+  } else if (gistToken && !gistId) {
+    // トークンはあるがGistなし→新規作成
+    await pushToGist();
+  } else if (!gistToken) {
+    // 初回：設定を促す
+    setTimeout(() => {
+      if (!localStorage.getItem("gist_setup_dismissed")) openSettingsModal();
+    }, 800);
+  }
+  document.getElementById("taskInput").addEventListener("keydown", e => { if(e.key==="Enter") addTask(); });
+  document.getElementById("newTagInput").addEventListener("keydown", e => { if(e.key==="Enter") addPresetTag(); });
+  document.getElementById("editTaskText").addEventListener("keydown", e => { if(e.key==="Enter") saveEdit(); });
 });
 </script>
 </body>
