@@ -1,4 +1,4 @@
-const CACHE = "mytodo-v1";
+const CACHE = "mytodo-v2";
 const ASSETS = [
   "./",
   "./index.html",
