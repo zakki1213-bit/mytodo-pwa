@@ -16,12 +16,14 @@
   html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; background: #fafafa; color: #202020; }
   body { max-width: 820px; margin: 0 auto; padding-bottom: 80px; }
   header { position: sticky; top: 0; background: #db4c3f; color: #fff; padding: 6px 12px; z-index: 10; display: flex; align-items: center; justify-content: space-between; }
-  header h1 { margin: 0; font-size: 15px; font-weight: 600; }
-  header .right { display: flex; gap: 6px; align-items: center; }
+  header h1 { margin: 0; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+  header .right { display: flex; gap: 6px; align-items: center; overflow-x: auto; max-width: 60vw; }
+  header .right::-webkit-scrollbar { display: none; }
   #syncIndicator { font-size: 11px; opacity: 0.85; white-space: nowrap; }
   .tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 48px; z-index: 9; overflow-x: auto; }
-  .tab { flex: 1; min-width: 72px; text-align: center; padding: 12px 8px; font-size: 13px; color: #666; cursor: pointer; border-bottom: 3px solid transparent; user-select: none; white-space: nowrap; }
+  .tab { flex: 1; min-width: 60px; text-align: center; padding: 12px 6px; font-size: 13px; color: #666; cursor: pointer; border-bottom: 3px solid transparent; user-select: none; white-space: nowrap; }
   .tab.active { color: #db4c3f; border-bottom-color: #db4c3f; font-weight: 600; }
+  .tab-settings { background: none; border: none; font-size: 18px; padding: 10px 8px; cursor: pointer; color: #999; flex-shrink: 0; }
   .container { padding: 12px 16px; }
   .input-box { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-bottom: 14px; }
   .input-row { display: flex; gap: 8px; }
@@ -124,7 +126,6 @@
   <h1>📋 MyTodo</h1>
   <div class="right">
     <span id="syncIndicator">📱ローカル</span>
-    <button class="btn btn-sub btn-sm" onclick="openSettingsModal()">⚙️</button>
     <button class="btn btn-sub btn-sm" onclick="openTagModal()">タグ</button>
     <button class="btn btn-sub btn-sm" onclick="exportJSON()">保存</button>
     <button class="btn btn-sub btn-sm" onclick="document.getElementById('jsonFile').click()">復元</button>
@@ -139,6 +140,7 @@
   <div class="tab" data-view="routine" onclick="switchView('routine')">🔁定期</div>
   <div class="tab" data-view="calendar" onclick="switchView('calendar')">カレンダー</div>
   <div class="tab" data-view="stats" onclick="switchView('stats')">集計</div>
+  <button class="tab-settings" onclick="openSettingsModal()" title="Gist同期設定">⚙️</button>
 </div>
 
 <div class="container">
