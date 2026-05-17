@@ -975,7 +975,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!localStorage.getItem("gist_setup_dismissed")) openSettingsModal();
     }, 800);
   }
-  document.getElementById("taskInput").addEventListener("keydown", e => { if(e.key==="Enter") addTask(); });
+  document.getElementById("taskInput").addEventListener("keydown", e => { if(e.key==="Enter" && !e.isComposing) addTask(); });
   document.getElementById("newTagInput").addEventListener("keydown", e => { if(e.key==="Enter") addPresetTag(); });
   document.getElementById("editTaskText").addEventListener("keydown", e => { if(e.key==="Enter") saveEdit(); });
 });
